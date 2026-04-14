@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <header>
+        <h1>GoStudy!</h1>
+
+        <nav class="dashboard-nav">
+            <a href="user.html">Profilis</a>
+            <a href="#" onclick="logout()">Atsijungti</a>
+        </nav>
+    </header>
+
+    <div class="user-layout">
+
+        <!-- sidebar -->
+        <aside class="dashboard-sidebar">
+            <button class="active-btn" onclick="showSection('main', this)">Pagrindinis</button>
+            <button onclick="showSection('tasks', this)">Užduotys</button>
+            <button onclick="showSection('lectures', this)">Paskaitos</button>
+        </aside>
+
+        <!-- turinys -->
+        <main class="user-content">
+
+            <!-- Pagrindinis tab -->
+            <div id="main">
+
+                <div class="calendar-box">
+                    <div class="calendar-header">
+                        <button onclick="prevMonth()">←</button>
+                        <h2 id="calendarTitle"></h2>
+                        <button onclick="nextMonth()">→</button>
+                    </div>
+
+                    <div class="calendar-grid" id="calendar"></div>
+                </div>
+
+                <div id="dayInfo" class="day-info hidden">
+                    <button class="close-btn" onclick="closeDayInfo()">
+                        <img src="Images/close.png" alt="Close">
+                    </button>
+
+                    <h3 id="selectedDate"></h3>
+                    <div id="dayContent">Pasirink dieną</div>
+                </div>
+
+                <div class="legend-box">
+                    <div class="legend-item">
+                        <img src="Images/hat.png" alt="Paskaita">
+                        <span>Paskaita</span>
+                    </div>
+                    <br>
+                    <div class="legend-item">
+                        <img src="Images/pen.png" alt="Užduotis">
+                        <span>Užduotis</span>
+                    </div>
+                </div>
+
+                <h2>Užduotys</h2>
+                
+                <table id="taskTablePreview">
+                    <tr>
+                        <th>Pavadinimas</th>
+                        <th>Modulis</th>
+                        <th>Tipas</th>
+                        <th>Atlikti iki</th>
+                        <th>Būsena</th>
+                    </tr>
+                    <td class="${statusClass}">${statusText}</td>
+                </table>
+
+                <h2>Paskaitos</h2>
+                <table id="lectureTablePreview">
+                    <tr>
+                        <th>Pavadinimas</th>
+                        <th>Modulis</th>
+                        <th>Tipas</th>
+                        <th>Privaloma</th>
+                        <th>Laikas</th>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Uzduociu tab -->
+            <div id="tasks" class="hidden">
+                <button onclick="openTaskForm()">+ Pridėti užduotį</button>
+
+                <div id="taskForm" class="hidden form-box">
+
+                    <h3>Nauja užduotis</h3>
+
+                    <input type="text" id="taskTitle" placeholder="Pavadinimas">
+
+                    <br><br>
+
+                    <select id="taskModule">
+                        <option value="Algoritmų analizė">INF2041 - Algoritmų analizė</option>
+                        <option value="Interneto technologijos">INF3002 - Interneto technologijos</option>
+                        <option value="Interaktyvi multimedija ir animacija">INF3055_EN - Interaktyvi multimedija ir
+                            animacija</option>
+                        <option value="Projektų valdymas">INF3057 - Projektų valdymas</option>
+                        <option value="Dirbtinis intelektas žaidimuose">INF3065 - Dirbtinis intelektas žaidimuose
+                        </option>
+                    </select>
+
+                    <br><br>
+
+                    <h3>Užduoties tipas</h3>
+
+                    <div class="task-type-box">
+
+                        <label>Rašto darbas<input type="checkbox" class="task-type" value="Rašto darbas"></label>
+                        <label>Praktinis darbas<input type="checkbox" class="task-type"
+                                value="Praktinis darbas"></label>
+                        <label>Grupinis darbas<input type="checkbox" class="task-type" value="Grupinis darbas"></label>
+                        <label>Kontrolinis darbas<input type="checkbox" class="task-type"
+                                value="Kontrolinis darbas"></label>
+                        <label>Kolokviumas<input type="checkbox" class="task-type" value="Kolokviumas"></label>
+                        <label>Egzaminas<input type="checkbox" class="task-type" value="Egzaminas"></label>
+
+                    </div>
+
+                    <br><br>
+
+                    <input type="date" id="taskDate">
+                    <input type="time" id="taskTime">
+
+                    <br><br>
+
+                    <button onclick="saveTask()">Išsaugoti</button>
+                    <button onclick="closeTaskForm()">Uždaryti</button>
+
+                </div>
+
+                <table border="1" width="100%" id="taskTable">
+                    <tr>
+                        <th>Pavadinimas</th>
+                        <th>Modulis</th>
+                        <th>Tipas</th>
+                        <th>Atlikti iki</th>
+                        <th>Būsena</th>
+                        <th>Ištrinti</th>
+                    </tr>
+                </table>
+            </div>
+            <!-- Paskaitu tab -->
+            <div id="lectures" class="hidden">
+
+                <button onclick="openLectureForm()">+ Pridėti paskaitą</button>
+
+                <div id="lectureForm" class="hidden form-box">
+
+                    <h3>Nauja paskaita</h3>
+
+                    <input type="text" id="lecTitle" placeholder="Pavadinimas">
+
+                    <br><br>
+
+                    <select id="lecModule">
+                        <option value="INF2041">INF2041 - Algoritmų analizė</option>
+                        <option value="INF3002">INF3002 - Interneto technologijos</option>
+                        <option value="INF3055_EN">INF3055_EN - Interaktyvi multimedija ir animacija</option>
+                        <option value="INF3057">INF3057 - Projektų valdymas</option>
+                        <option value="INF3065">INF3065 - Dirbtinis intelektas žaidimuose</option>
+                    </select>
+
+                    <br><br>
+
+                    <select id="lecType">
+                        <option value="Teorinė">Teorinė</option>
+                        <option value="Praktinė">Praktinė</option>
+                    </select>
+
+                    <br><br>
+
+                    <div class="form-row">
+                        <h3>Privaloma</h3>
+                        <input type="checkbox" id="lecRequired">
+                    </div>
+
+                    <label>
+                        <h3>Laikas</h3>
+                    </label>
+
+                    <div class="weekday-row">
+                        <span class="day-name">Pirmadienis</span>
+                        <input type="checkbox" class="weekday" value="Pirmadienis" onchange="toggleDayTime(this)">
+                        <input type="time" class="start-time hidden">
+                        <span>-</span>
+                        <input type="time" class="end-time hidden">
+                    </div>
+
+                    <div class="weekday-row">
+                        <span class="day-name">Antradienis</span>
+                        <input type="checkbox" class="weekday" value="Antradienis" onchange="toggleDayTime(this)">
+                        <input type="time" class="start-time hidden">
+                        <span>-</span>
+                        <input type="time" class="end-time hidden">
+                    </div>
+
+                    <div class="weekday-row">
+                        <span class="day-name">Trečiadienis</span>
+                        <input type="checkbox" class="weekday" value="Trečiadienis" onchange="toggleDayTime(this)">
+                        <input type="time" class="start-time hidden">
+                        <span>-</span>
+                        <input type="time" class="end-time hidden">
+                    </div>
+
+                    <div class="weekday-row">
+                        <span class="day-name">Ketvirtadienis</span>
+                        <input type="checkbox" class="weekday" value="Ketvirtadienis" onchange="toggleDayTime(this)">
+                        <input type="time" class="start-time hidden">
+                        <span>-</span>
+                        <input type="time" class="end-time hidden">
+                    </div>
+
+                    <div class="weekday-row">
+                        <span class="day-name">Penktadienis</span>
+                        <input type="checkbox" class="weekday" value="Penktadienis" onchange="toggleDayTime(this)">
+                        <input type="time" class="start-time hidden">
+                        <span>-</span>
+                        <input type="time" class="end-time hidden">
+                    </div>
+
+                    <br><br>
+
+                    <button onclick="saveLecture()">Išsaugoti</button>
+                    <button onclick="closeLectureForm()">Uždaryti</button>
+
+                </div>
+
+                <!-- Lentele -->
+                <table border="1" width="100%" id="lectureTable">
+                    <tr>
+                        <th>Pavadinimas</th>
+                        <th>Modulis</th>
+                        <th>Tipas</th>
+                        <th>Privaloma</th>
+                        <th>Laikas</th>
+                        <th>Ištrinti</th>
+                    </tr>
+                </table>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <footer>
+        <p>GoStudy! © 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>

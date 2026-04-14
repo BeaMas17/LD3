@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="lt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vartotojo profilis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- header -->
+    <header>
+        <h1>GoStudy!</h1>
+
+        <nav class="dashboard-nav">
+            <a href="dashboard.html">Pradžia</a>
+            <a href="#" onclick="logout()">Atsijungti</a>
+        </nav>
+    </header>
+
+    <div class="user-layout">
+        <aside class="user-sidebar">
+            <button class="active-btn" onclick="showSection('info', this)">Informacija</button>
+            <button onclick="showSection('password', this)">Slaptažodžio keitimas</button>
+
+        </aside>
+
+        <!-- turinys -->
+        <main class="user-content">
+
+            <!-- info -->
+            <div id="info" class="user-section">
+                <div class="user-row">
+                    <div class="user-box">
+                        <h2>Vartotojo informacija</h2>
+
+                        <p><strong>Vardas:</strong> Jonas Jonaitis</p>
+                        <p><strong>Vartotojo vardas:</strong> jonasj4</p>
+                        <p><strong>El. paštas:</strong> jonas.jonaitis@vdu.lt</p>
+                        <p><strong>Studijų programa:</strong> Multimedijos ir interneto technologijos</p>
+                        <p><strong>Aukštoji mokykla:</strong> Vytauto Didžiojo universitetas</p>
+                    </div>
+
+                    <div class="user-box">
+                        <h2>Modulių sąrašas</h2>
+
+                        <p><strong>INF2041:</strong> Algoritmų analizė</p>
+                        <p><strong>INF3002:</strong> Interneto technologijos</p>
+                        <p><strong>INF3055_EN:</strong> Interaktyvi multimedija ir animacija</p>
+                        <p><strong>INF3057:</strong> Projektų valdymas</p>
+                        <p><strong>INF3065:</strong> Dirbtinis intelektas žaidimuose</p>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- slaptazodis -->
+            <div id="password" class="user-section hidden">
+
+                <h2>Slaptažodžio keitimas</h2>
+
+                <form>
+                    <input type="password" id="oldPassword" placeholder="Senas slaptažodis"><br><br>
+
+                    <input type="password" id="newPassword" placeholder="Naujas slaptažodis"><br><br>
+
+                    <button type="button" onclick="changePassword()">
+                        Pakeisti slaptažodį
+                    </button>
+
+                </form>
+
+            </div>
+
+        </main>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+
+</html>
